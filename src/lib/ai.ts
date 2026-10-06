@@ -7,7 +7,7 @@ import { aiNotes } from "@/db/schema";
 // Textos explicativos generados con Claude. Es opcional: solo funciona si existe ANTHROPIC_API_KEY.
 // Cada texto se guarda en la BD para no pagar dos veces por lo mismo.
 
-const MODEL = "claude-opus-5-5";
+const MODEL = "claude-sonnet-5-5";
 
 export function aiEnabled() {
   return !!process.env.ANTHROPIC_API_KEY;
