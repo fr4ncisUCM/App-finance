@@ -15,7 +15,7 @@ export const NEWS_CATEGORIES: { id: NewsCategory | "todas"; label: string }[] = 
 
 type Source = { name: string; url: string; category: NewsCategory; lang: "es" | "en" };
 
-const SOURCES: Source[] = [
+export const SOURCES: Source[] = [
   { name: "Expansión", url: "https://e00-expansion.uecdn.es/rss/mercados.xml", category: "mercados", lang: "es" },
   { name: "Investing.com", url: "https://es.investing.com/rss/news.rss", category: "mercados", lang: "es" },
   { name: "Cinco Días", url: "https://feeds.elpais.com/mrss-s/pages/ep/site/cincodias.elpais.com/portada", category: "economia", lang: "es" },

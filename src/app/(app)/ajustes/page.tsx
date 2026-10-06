@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronRight, LogOut, Users } from "lucide-react";
+import { Activity, ChevronRight, LogOut, Users } from "lucide-react";
 import { logout } from "@/app/actions/auth";
 import { setBaseCurrency } from "@/app/actions/preferences";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -55,6 +55,17 @@ export default async function SettingsPage() {
             </Card>
           </Link>
         )}
+
+        <Link href="/ajustes/diagnostico" className="block">
+          <Card className="flex items-center gap-3">
+            <Activity className="text-accent" size={20} />
+            <span className="flex-1">
+              <span className="block font-semibold">Diagnóstico</span>
+              <span className="text-sm text-muted">Comprueba si llegan las cotizaciones y las noticias</span>
+            </span>
+            <ChevronRight className="text-muted" size={20} />
+          </Card>
+        </Link>
 
         <form action={logout}>
           <Button variant="danger" className="w-full">
