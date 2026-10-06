@@ -1,0 +1,142 @@
+// Contenido didáctico para quien empieza.
+
+export type Guide = { id: string; title: string; minutes: number; body: string[] };
+
+export const GUIDES: Guide[] = [
+  {
+    id: "rutina",
+    title: "Tu rutina de 10 minutos al día con Pulso",
+    minutes: 2,
+    body: [
+      "1. Abre «Hoy». Mira las tarjetas de arriba: en verde lo que sube, en rojo lo que baja. Fíjate sobre todo en el S&P 500 (EE. UU.) y el Euro Stoxx 50 (Europa).",
+      "2. Lee el «Resumen del día» (si tienes la IA activada) o los titulares de la derecha. La pregunta clave es: ¿por qué se mueve hoy el mercado?",
+      "3. Revisa «Mis valores». Si alguno se mueve mucho (más de un 3-4 % en un día), abre su ficha y mira las noticias.",
+      "4. Una vez a la semana, mira el gráfico a 1 año de tus valores y de los índices. Lo importante es la tendencia, no el ruido de un día.",
+      "5. Cuando veas una palabra que no entiendes, búscala en el glosario de abajo o pasa el ratón por el icono «?».",
+    ],
+  },
+  {
+    id: "bolsa",
+    title: "Qué es la bolsa y por qué sube o baja",
+    minutes: 3,
+    body: [
+      "Una acción es un trozo pequeñito de una empresa. Si compras una acción de Apple, eres dueño de una parte minúscula de Apple: participas de sus beneficios (a través de los dividendos y de la subida del precio) y de sus riesgos.",
+      "La bolsa es el mercado donde se compran y venden esas acciones. El precio lo fija la oferta y la demanda: si hay más gente queriendo comprar que vender, el precio sube.",
+      "¿Y por qué quiere la gente comprar? A largo plazo, porque las empresas ganan más dinero con los años. A corto plazo, por expectativas, noticias, miedo o euforia. Por eso a corto plazo la bolsa es impredecible, pero a largo plazo tiende a seguir a los beneficios de las empresas.",
+      "Dato histórico: el S&P 500 ha dado de media alrededor de un 10 % anual (dividendos incluidos) en los últimos 100 años, pero con años de caídas del 20 %, 30 % e incluso 50 %.",
+    ],
+  },
+  {
+    id: "productos",
+    title: "Acciones, ETFs, fondos, bonos y cripto: en qué se diferencian",
+    minutes: 4,
+    body: [
+      "**Acción**: parte de una sola empresa. Puede subir mucho o hundirse si a esa empresa le va mal. Riesgo alto si solo tienes unas pocas.",
+      "**Índice**: una lista de empresas (por ejemplo, las 500 del S&P 500) que sirve para medir cómo va el mercado. No se compra directamente: se compra a través de fondos o ETFs que lo copian.",
+      "**Fondo indexado / ETF**: una cesta que compra muchas empresas de golpe (por ejemplo, todo el S&P 500). Con una sola compra estás diversificado. Los ETF cotizan en bolsa como una acción; los fondos se compran en tu banco o plataforma.",
+      "**Bono**: un préstamo que haces a un gobierno o empresa a cambio de un interés. Suele ser más estable que las acciones. Cuando los tipos de interés suben, el precio de los bonos que ya existen baja (y al revés).",
+      "**Criptomonedas**: activos digitales sin empresa detrás que genere beneficios. Su precio depende casi solo de la oferta y la demanda, por eso son muy volátiles.",
+      "**Materias primas**: oro, petróleo, cobre… El oro se usa como refugio; el petróleo influye en la inflación.",
+    ],
+  },
+  {
+    id: "ficha",
+    title: "Cómo leer la ficha de una acción",
+    minutes: 4,
+    body: [
+      "**Precio y variación**: lo que vale ahora y cuánto ha cambiado desde el cierre de ayer, en dinero y en %. Fíjate siempre en el %: subir 5 $ es mucho para una acción de 20 $ y nada para una de 900 $.",
+      "**Gráfico**: cambia el periodo (1 día, 1 año, 5 años). Un día malo dentro de una tendencia de 5 años alcista es ruido. La línea discontinua en «1 día» es el cierre de ayer.",
+      "**Capitalización**: lo que vale la empresa entera. Más de 200.000 millones = gigante; menos de 2.000 millones = pequeña (más arriesgada).",
+      "**PER**: cuántas veces pagas los beneficios anuales. Un PER de 20 significa que, si la empresa ganara siempre lo mismo, tardarías 20 años en «recuperar» lo pagado. Compara siempre con empresas del mismo sector.",
+      "**Dividendo**: dinero que la empresa reparte. Las empresas maduras (eléctricas, bancos) suelen repartir más; las tecnológicas que crecen, menos o nada.",
+      "**Analistas**: su precio objetivo es una opinión, no una promesa. Úsalo como un dato más.",
+    ],
+  },
+  {
+    id: "mueve",
+    title: "Qué mueve los mercados",
+    minutes: 4,
+    body: [
+      "**Tipos de interés**: los fijan los bancos centrales (la Reserva Federal en EE. UU., el BCE en Europa). Si suben, pedir dinero es más caro, las empresas ganan menos y la bolsa suele sufrir. Si bajan, suele ocurrir lo contrario.",
+      "**Inflación**: la subida general de precios. Si es alta, los bancos centrales suben tipos para frenarla. Por eso el dato mensual de inflación (IPC / CPI) mueve mucho el mercado.",
+      "**Resultados empresariales**: cada trimestre las empresas publican sus cuentas. Lo que importa no es solo si ganan dinero, sino si ganan más o menos de lo que se esperaba.",
+      "**Empleo y crecimiento**: datos como el paro de EE. UU. (el primer viernes de cada mes) o el PIB dicen si la economía va bien.",
+      "**Geopolítica y sorpresas**: guerras, elecciones, aranceles… generan incertidumbre, y al mercado no le gusta la incertidumbre. El VIX («índice del miedo») sube en esos momentos.",
+    ],
+  },
+  {
+    id: "riesgo",
+    title: "Riesgo, diversificación y horizonte",
+    minutes: 3,
+    body: [
+      "**Volatilidad**: cuánto sube y baja algo. Más volatilidad = más emociones y más riesgo de vender en mal momento.",
+      "**Diversificar**: no poner todos los huevos en la misma cesta. Si tienes 30 empresas de varios países y sectores, que una quiebre apenas te afecta. Un fondo indexado global ya diversifica por ti.",
+      "**Horizonte temporal**: el dinero que vas a necesitar en menos de 3-5 años no debería estar en bolsa. A 1 año la bolsa puede caer un 30 %; a 15-20 años, históricamente, casi siempre ha subido.",
+      "**Fondo de emergencia**: antes de invertir, ten ahorrados entre 3 y 6 meses de gastos en una cuenta sin riesgo.",
+    ],
+  },
+  {
+    id: "compuesto",
+    title: "El interés compuesto",
+    minutes: 2,
+    body: [
+      "Es ganar intereses sobre los intereses. Si inviertes 1.000 € y ganas un 7 % al año, el primer año ganas 70 €. El segundo ganas el 7 % de 1.070 €, es decir, 74,90 €. Y así sucesivamente.",
+      "Con un 7 % anual, 1.000 € se convierten en unos 1.967 € en 10 años, 3.870 € en 20 y 7.612 € en 30. El tiempo es el ingrediente más importante.",
+      "Por eso las comisiones importan tanto: con un 7 % de rentabilidad, pagar un 2 % anual de comisión reduce tu dinero final en 30 años casi a la mitad.",
+    ],
+  },
+  {
+    id: "errores",
+    title: "Errores típicos al empezar",
+    minutes: 3,
+    body: [
+      "**Perseguir lo que más sube**: cuando algo sale en todas las noticias porque ha subido un 100 %, normalmente ya llegas tarde.",
+      "**Vender por pánico**: las caídas fuertes son normales. Vender en el peor momento convierte una pérdida temporal en una real.",
+      "**Concentrarse en una o dos empresas**: aunque las conozcas y te gusten.",
+      "**Mirar el precio cada hora**: aumenta la ansiedad y te empuja a tomar malas decisiones.",
+      "**Invertir en lo que no entiendes** o fiarte de «gurús» y redes sociales que prometen rentabilidades altas sin riesgo. Eso no existe.",
+      "**Olvidar las comisiones y los impuestos**: en España las ganancias al vender tributan en el IRPF (base del ahorro).",
+    ],
+  },
+];
+
+export type Term = { term: string; def: string };
+
+export const GLOSSARY: Term[] = [
+  { term: "Acción", def: "Parte del capital de una empresa. Quien la tiene es copropietario de la empresa." },
+  { term: "Alcista / bajista", def: "Mercado alcista (bull market): tendencia de subidas. Bajista (bear market): caídas de más del 20 % desde máximos." },
+  { term: "Analista", def: "Profesional que estudia empresas y publica recomendaciones (comprar, mantener, vender) y precios objetivo." },
+  { term: "Banco central", def: "Institución que fija los tipos de interés y vigila la inflación: la Fed en EE. UU., el BCE en la zona euro." },
+  { term: "Beta", def: "Mide cuánto se mueve un valor respecto al mercado. 1 = igual; más de 1 = más volátil; menos de 1 = más estable." },
+  { term: "Bono", def: "Préstamo a un gobierno o empresa que paga un interés. Su rentabilidad («yield») sube cuando su precio baja." },
+  { term: "Broker", def: "La plataforma o entidad a través de la cual compras y vendes valores." },
+  { term: "Capitalización", def: "Valor total de una empresa en bolsa: precio por acción × número de acciones." },
+  { term: "Corrección", def: "Caída de entre un 10 % y un 20 % desde máximos. Ocurre de media una vez al año o cada dos años." },
+  { term: "Dividendo", def: "Parte del beneficio que la empresa reparte entre sus accionistas, normalmente cada trimestre, semestre o año." },
+  { term: "Diversificación", def: "Repartir el dinero entre muchas inversiones distintas para reducir el riesgo." },
+  { term: "ETF", def: "Fondo que cotiza en bolsa como una acción y suele replicar un índice (por ejemplo, el S&P 500)." },
+  { term: "Ex-dividendo", def: "Fecha a partir de la cual quien compra la acción ya no cobra el próximo dividendo." },
+  { term: "Fed (Reserva Federal)", def: "El banco central de EE. UU. Sus decisiones sobre tipos de interés mueven los mercados de todo el mundo." },
+  { term: "Fondo indexado", def: "Fondo que copia un índice en lugar de intentar batirlo. Suele tener comisiones muy bajas." },
+  { term: "Futuros", def: "Contratos para comprar o vender algo en una fecha futura a un precio fijado hoy. Se usan para cotizar materias primas o anticipar la apertura de la bolsa." },
+  { term: "Índice", def: "Indicador que resume la evolución de un grupo de valores: S&P 500, IBEX 35, Euro Stoxx 50…" },
+  { term: "Inflación", def: "Subida general de los precios. Se mide con el IPC (en EE. UU., CPI)." },
+  { term: "Liquidez", def: "Facilidad para comprar o vender algo rápidamente sin mover su precio." },
+  { term: "Margen de beneficio", def: "De cada 100 € que ingresa una empresa, cuántos le quedan como beneficio." },
+  { term: "Máximos históricos", def: "El precio más alto que ha alcanzado nunca un valor o índice." },
+  { term: "PER", def: "Precio / beneficio por acción. Indica cuántas veces pagas el beneficio anual de la empresa." },
+  { term: "Pre-apertura / after-hours", def: "Negociación antes de que abra o después de que cierre la sesión oficial (sobre todo en EE. UU.)." },
+  { term: "Precio objetivo", def: "Precio al que un analista cree que llegará la acción, normalmente en 12 meses." },
+  { term: "Prima de riesgo", def: "Diferencia entre lo que paga el bono a 10 años de un país (por ejemplo, España) y el alemán. Mide la desconfianza hacia ese país." },
+  { term: "Rentabilidad", def: "Lo que ganas o pierdes en una inversión, en porcentaje sobre lo invertido." },
+  { term: "Resultados trimestrales", def: "Cuentas que las empresas cotizadas publican cada tres meses. Suelen provocar grandes movimientos." },
+  { term: "Sector", def: "Grupo de empresas con actividad parecida: tecnología, banca, energía, salud…" },
+  { term: "Small caps", def: "Empresas pequeñas en bolsa (capitalización baja). Más potencial y más riesgo." },
+  { term: "Spread", def: "Diferencia entre el precio de compra y el de venta, o entre dos tipos de interés." },
+  { term: "Tipos de interés", def: "El «precio» del dinero. Cuando suben, endeudarse es más caro y la bolsa suele sufrir." },
+  { term: "Ticker / símbolo", def: "Código con el que se identifica un valor en bolsa: AAPL (Apple), SAN.MC (Santander en Madrid)." },
+  { term: "VIX", def: "Índice que mide la volatilidad esperada en el S&P 500. Se le llama «índice del miedo»." },
+  { term: "Volatilidad", def: "Lo mucho o poco que oscila el precio de algo. Más volatilidad = más riesgo." },
+  { term: "Volumen", def: "Número de acciones que se han comprado y vendido en un periodo." },
+  { term: "Yield (rentabilidad del bono)", def: "El interés anual que obtendrías comprando hoy un bono y manteniéndolo hasta su vencimiento." },
+];
