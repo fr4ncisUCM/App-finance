@@ -1,6 +1,6 @@
 "use server";
 
-import { aiEnabled, briefKey, companyKey, generateBrief, generateCompanyExplainer, readNote } from "@/lib/ai";
+import { AiError, aiEnabled, briefKey, companyKey, generateBrief, generateCompanyExplainer, readNote } from "@/lib/ai";
 import { requireUser } from "@/lib/dal";
 import { formatBig, formatNumber, formatPercent, formatPrice, longToday, todayKey } from "@/lib/format";
 import { HEADLINE_SYMBOLS, MARKET_GROUPS } from "@/lib/market/catalog";
@@ -50,7 +50,7 @@ export async function generateBriefAction(): Promise<AiState> {
     return { text, at: new Date().toISOString() };
   } catch (err) {
     console.error("Error generando el resumen", err);
-    return { error: "No se ha podido generar el resumen. Inténtalo de nuevo en unos minutos." };
+    return { error: err instanceof AiError ? err.message : "No se ha podido generar el resumen. Inténtalo de nuevo en unos minutos." };
   }
 }
 
@@ -96,6 +96,6 @@ export async function explainCompanyAction(symbol: string): Promise<AiState> {
     return { text, at: new Date().toISOString() };
   } catch (err) {
     console.error("Error generando la explicación", err);
-    return { error: "No se ha podido generar la explicación. Inténtalo de nuevo en unos minutos." };
+    return { error: err instanceof AiError ? err.message : "No se ha podido generar la explicación. Inténtalo de nuevo en unos minutos." };
   }
 }

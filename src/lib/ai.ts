@@ -32,27 +32,102 @@ const STYLE = `Escribes en español de España para una persona que está empeza
 - No des recomendaciones de compra o venta ni digas qué hacer con el dinero.
 - Formato: Markdown sencillo. Solo títulos «## », listas con «- » y **negritas**. Nada de tablas ni enlaces.`;
 
-async function generate(system: string, prompt: string) {
-  const client = new Anthropic();
-  const response = await client.beta.messages.create({
-    model: MODEL,
-    max_tokens: 16000,
-    thinking: { type: "adaptive" },
-    output_config: { effort: "medium" },
-    // Si el modelo rechaza la petición, la API la reintenta sola con el modelo de respaldo recomendado.
-    betas: ["server-side-fallback-2026-07-01"],
-    fallbacks: "default",
-    system,
-    messages: [{ role: "user", content: prompt }],
-  });
-  if (response.stop_reason === "refusal") throw new Error("La IA no ha podido generar el texto.");
+/** Error con un mensaje en español que se puede enseñar tal cual al usuario. */
+export class AiError extends Error {}
+
+function apiMessage(err: InstanceType<typeof Anthropic.APIError>) {
+  const body = err.error as { error?: { message?: string } } | undefined;
+  return body?.error?.message ?? err.message;
+}
+
+/** Traduce los errores de la API a algo que se entienda y diga cómo arreglarlo. */
+function explainError(err: unknown): string {
+  if (err instanceof AiError) return err.message;
+  if (err instanceof Anthropic.AuthenticationError) {
+    return "La API key no es válida. Revisa ANTHROPIC_API_KEY en Vercel (cópiala entera, sin espacios) y vuelve a desplegar.";
+  }
+  if (err instanceof Anthropic.PermissionDeniedError) {
+    return `La API key no tiene permiso para usar este modelo: ${apiMessage(err)}`;
+  }
+  if (err instanceof Anthropic.RateLimitError) {
+    return "Se ha alcanzado el límite de peticiones de tu cuenta de Anthropic. Espera un minuto y vuelve a probar.";
+  }
+  if (err instanceof Anthropic.BadRequestError) {
+    const msg = apiMessage(err);
+    if (/credit balance/i.test(msg)) {
+      return "Tu cuenta de Anthropic no tiene créditos. Añádelos en console.anthropic.com → Billing.";
+    }
+    return `La API de Anthropic ha rechazado la petición: ${msg}`;
+  }
+  if (err instanceof Anthropic.APIConnectionError) {
+    return "No se ha podido conectar con Anthropic. Inténtalo de nuevo en un momento.";
+  }
+  if (err instanceof Anthropic.APIError) {
+    return `Anthropic no está disponible ahora mismo (error ${err.status}). Inténtalo de nuevo en unos minutos.`;
+  }
+  return "No se ha podido generar el texto. Inténtalo de nuevo en unos minutos.";
+}
+
+function readText(response: { stop_reason: string | null; content: { type: string; text?: string }[] }) {
+  if (response.stop_reason === "refusal") throw new AiError("La IA no ha querido generar este texto. Prueba más tarde.");
   const text = response.content
     .filter((b) => b.type === "text")
-    .map((b) => b.text)
+    .map((b) => b.text ?? "")
     .join("\n")
     .trim();
-  if (!text) throw new Error("La IA ha devuelto una respuesta vacía.");
+  if (!text) throw new AiError("La IA ha devuelto una respuesta vacía. Prueba otra vez.");
   return text;
+}
+
+async function generate(system: string, prompt: string) {
+  // Esfuerzo bajo: para resúmenes basta, responde antes y gasta menos.
+  const base = {
+    model: MODEL,
+    max_tokens: 16000,
+    thinking: { type: "adaptive" as const },
+    output_config: { effort: "low" as const },
+    system,
+    messages: [{ role: "user" as const, content: prompt }],
+  };
+  const client = new Anthropic();
+  try {
+    // Si el modelo rechaza la petición, la API la reintenta sola con el modelo de respaldo recomendado.
+    const response = await client.beta.messages.create({
+      ...base,
+      betas: ["server-side-fallback-2026-07-01"],
+      fallbacks: "default",
+    });
+    return readText(response);
+  } catch (err) {
+    // Algunas cuentas no tienen activada la función de respaldo: se repite la petición sin ella.
+    if (err instanceof Anthropic.BadRequestError && !/credit balance/i.test(apiMessage(err))) {
+      console.warn("Reintentando sin respaldo de modelo:", apiMessage(err));
+      try {
+        return readText(await client.messages.create(base));
+      } catch (retryErr) {
+        console.error("Error de la API de Anthropic", retryErr);
+        throw new AiError(explainError(retryErr));
+      }
+    }
+    console.error("Error de la API de Anthropic", err);
+    throw new AiError(explainError(err));
+  }
+}
+
+/** Petición mínima para comprobar que la clave y los créditos funcionan (Ajustes → Diagnóstico). */
+export async function pingAi() {
+  const client = new Anthropic();
+  try {
+    const r = await client.messages.create({
+      model: MODEL,
+      max_tokens: 200,
+      output_config: { effort: "low" },
+      messages: [{ role: "user", content: "Responde solo: OK" }],
+    });
+    return `Funciona (${r.model})`;
+  } catch (err) {
+    throw new AiError(explainError(err));
+  }
 }
 
 export function briefKey(userId: number, day: string) {

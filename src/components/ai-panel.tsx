@@ -20,7 +20,14 @@ export function AiPanel({
   waiting: string;
   allowRefresh?: boolean;
 }) {
-  const [state, run, pending] = useActionState(async () => action(), initial);
+  const [state, run, pending] = useActionState(async (prev: AiState) => {
+    try {
+      return await action();
+    } catch {
+      // Corte de red o tiempo de espera del servidor: se avisa sin perder el texto anterior.
+      return { ...prev, error: "La petición se ha cortado o ha tardado demasiado. Vuelve a intentarlo." };
+    }
+  }, initial);
   const text = state?.text;
 
   if (pending) {

@@ -1,7 +1,7 @@
 import "server-only";
 import { sql } from "drizzle-orm";
 import { db } from "@/db";
-import { aiEnabled } from "./ai";
+import { aiEnabled, pingAi } from "./ai";
 import { SOURCES } from "./market/news";
 import { UA, yf } from "./market/yahoo";
 
@@ -12,7 +12,7 @@ async function run(group: string, name: string, fn: () => Promise<string>): Prom
   try {
     const detail = await Promise.race([
       fn(),
-      new Promise<string>((_, reject) => setTimeout(() => reject(new Error("Tiempo de espera agotado (10 s)")), 10_000)),
+      new Promise<string>((_, reject) => setTimeout(() => reject(new Error("Tiempo de espera agotado (30 s)")), 30_000)),
     ]);
     return { group, name, ok: true, ms: Date.now() - t, detail };
   } catch (err) {
@@ -37,7 +37,7 @@ export async function runDiagnostics(): Promise<Check[]> {
     }),
     run("App", "IA (ANTHROPIC_API_KEY)", async () => {
       if (!aiEnabled()) throw new Error("No configurada (opcional)");
-      return "Configurada";
+      return pingAi();
     }),
     run("Cotizaciones", "Yahoo spark (query1)", async () => {
       const b = await getStatus("https://query1.finance.yahoo.com/v7/finance/spark?symbols=%5EGSPC&range=1d&interval=15m");
